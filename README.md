@@ -23,8 +23,8 @@ Please note that this implementation has a few known bugs:
 To test the code, follow these steps:
 
 1. Clone the repository or download the source code.
-2. Open the `number_line.html` file in a web browser.
+2. Open the `index.html` file in a web browser.
 3. Interact with the draggable points on the number line.
 4. Observe the highlighted area between the points.
 
-Feel free to explore the code, make improvements, and fix the existing bugs.
+Feel free to explore the code!
