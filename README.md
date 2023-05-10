@@ -12,11 +12,9 @@ This project implements a number line with two draggable points using HTML, CSS,
 
 ## Bugs
 
-Please note that this implementation has a few known bugs:
+Please note that this implementation has a known bugs:
 
-1. Currently it does not snap to nearest tick mark. 
-2. Overlapping the points cuases the highlighting to bug out. 
-3. ...
+1. Snapping to nearest tick mark does not seem to correctly work. I am able to calculate the nearest correct tick mark but am not able to edit the position of the point. 
 
 ## Usage
 

@@ -49,10 +49,9 @@
 
 <!-- Javascript Code -->
 <script>
-    // const points = document.getElementsByClassName("point");
-
     const pointOne = document.getElementById("pointOne");
     const pointTwo = document.getElementById("pointTwo");
+    const highLightLine = document.getElementById("highlightedArea");
 
     pointOne.setAttribute("draggable", "true");
     pointTwo.setAttribute("draggable", "true");
@@ -61,8 +60,6 @@
     pointTwo.addEventListener('drag', setPositionFromDrag)
 
     window.addEventListener('mouseup', snapPositionFromDrag)
-
-    const highLightLine = document.getElementById("highlightedArea");
 
     var point1Pos = 200;
     var point2Pos = 350;
@@ -98,7 +95,10 @@
         }
     } 
 
+    // This one is a little rough my apologies
     function snapPositionFromDrag(event) {
+
+        console.log("Inside Snap Function")
 
         var pos = 0
         if (event.target.id == 'pointOne') {
@@ -109,20 +109,26 @@
         }
 
         //Snap to closest tick
+        var snapTick = 0
+
+        // Loop through the ranges to snap to and check if the current position of the point at mouse up 
+        // is in the range, then calulate if its closer to the start or end of the range and set .left of the point to snap to that closest tick. 
         for (let i = 0; i < 11; i += 1) {
             var rangeStart = ranges[i].start
             var rangeEnd = ranges[i].end
 
+            // check if is its between start and end range of the current range.
             if (pos >= rangeStart && pos <= rangeEnd) {
-                var snapTick = 0
+                // Calculate the nearest tick in the given range
+    
                 if(rangeStart-pos < pos - rangeEnd) {
-                    snapTick = rangeStart
-                }
-                else {
                     snapTick = rangeEnd
                 }
+                else {
+                    snapTick = rangeStart
+                }
 
-
+                // update point coordinate
                 if (event.target.id == 'pointOne') {
                     pointOne.left = snapTick + 'px'
                 }   
@@ -132,24 +138,26 @@
 
                 console.log("Snap tick: " + snapTick)
 
-                updateHighlightedArea(snapTick)
             }
         }
+
+        // update the location to reflect on the number line. 
+        this.style.position = 'absolute';
+        this.style.left = snapTick + 'px';
+        updateHighlightedArea(snapTick)
     }
 
     // Function to update the position of the highlighted area
     function updateHighlightedArea(snapTick) {
-        // console.log("p1 " + point1Pos)
-        // console.log("p2 " + point2Pos)
-        // var startPos = Math.min(point1Pos, point2Pos);
-        // var endPos = Math.max(point1Pos, point2Pos);
-        // var width = Math.abs(endPos - startPos);
-        // highLightLine.style.left = startPos + 'px';
-        // highLightLine.style.width = width + 'px';
 
         var width = Math.abs(point1Pos - point2Pos);
-        highLightLine.style.left = point1Pos + 'px';
         highLightLine.style.width = width + 'px';
+        if ((point1Pos - point2Pos) < 0) {
+            highLightLine.style.left = point1Pos + 'px';
+        }
+        else {
+            highLightLine.style.left = point2Pos + 'px';
+        }
     }   
 
 </script>
