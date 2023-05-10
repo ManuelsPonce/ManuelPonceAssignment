@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number line with two draggable points. </title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h1>Number line with two draggable points.</h1>
+    <p>by Manuel Ponce</p>
+
+    <div class="outerContainer">
+        <div class="number" style="left: 47px;">-5</div>
+        <div class="number" style="left: 97px;">-4</div>
+        <div class="number" style="left: 147px;">-3</div>
+        <div class="number" style="left: 197px;">-2</div>
+        <div class="number" style="left: 247px;">-1</div>
+        <div class="number" style="left: 297px;"> 0</div>
+        <div class="number" style="left: 347px;"> 1</div>
+        <div class="number" style="left: 397px;"> 2</div>
+        <div class="number" style="left: 447px;"> 3</div>
+        <div class="number" style="left: 497px;"> 4</div>
+        <div class="number" style="left: 547px;"> 5</div>
+        <div class="numberLine">
+            <i class="arrow left"></i>
+            <i class="arrow right"></i>
+            <div class="tickMark" style="left: 50px;"></div> <!-- -5 -->
+            <div class="tickMark" style="left: 100px;"></div> <!--
+            -4 -->
+            <div class="tickMark" style="left: 150px;"></div> <!-- -3 -->
+            <div class="tickMark" style="left: 200px;"></div> <!-- -2 -->
+            <div class="tickMark" style="left: 250px;"></div> <!-- -1 -->
+            <div class="tickMark" style="left: 300px;"></div> <!-- 0 -->
+            <div class="tickMark" style="left: 350px;"></div> <!-- 1 -->
+            <div class="tickMark" style="left: 400px;"></div> <!-- 2 -->
+            <div class="tickMark" style="left: 450px;"></div> <!-- 3 -->
+            <div class="tickMark" style="left: 500px;"></div> <!-- 4 -->
+            <div class="tickMark" style="left: 550px;"></div> <!-- 5 -->
+
+            <div class="highlight" id="highlightedArea" style="left: 200px; width: 150px;"></div>
+            <div class="point" id="pointOne" style="left: 194px;"></div>
+            <div class="point" id="pointTwo" style="left: 344px;"></div>
+        </div>
+    </div>
+</body>
+
+
+
+
+<!-- Javascript Code -->
+<script>
+    // const points = document.getElementsByClassName("point");
+
+    const pointOne = document.getElementById("pointOne");
+    const pointTwo = document.getElementById("pointTwo");
+
+    pointOne.setAttribute("draggable", "true");
+    pointTwo.setAttribute("draggable", "true");
+    
+    pointOne.addEventListener('drag', setPositionFromDrag)
+    pointTwo.addEventListener('drag', setPositionFromDrag)
+
+    window.addEventListener('mouseup', snapPositionFromDrag)
+
+    const highLightLine = document.getElementById("highlightedArea");
+
+    var point1Pos = 200;
+    var point2Pos = 350;
+
+    const ranges = [];
+    
+    for (let i = 1; i < 11; i += 1) {
+    // Calculate the start and end of each range
+        const start = i * 50;
+        const end = start + 49;
+
+        const range = {
+            start: start,
+            end: end
+        };
+
+        ranges.push(range);
+    }
+
+    // Function to update position from drag event
+    function setPositionFromDrag(event) {
+        if (event.pageX >= 43 && event.pageX <= 548 ) {
+            this.style.position = 'absolute';
+            this.style.left = event.pageX + 'px';
+
+            if ( event.target.id == 'pointTwo') {
+                point2Pos = event.pageX
+            }
+            else {
+                point1Pos = event.pageX
+            }
+            updateHighlightedArea(event.pageX)
+        }
+    } 
+
+    function snapPositionFromDrag(event) {
+
+        var pos = 0
+        if (event.target.id == 'pointOne') {
+            pos = point1Pos
+        }   
+        else {
+            pos = point2Pos
+        }
+
+        //Snap to closest tick
+        for (let i = 0; i < 11; i += 1) {
+            var rangeStart = ranges[i].start
+            var rangeEnd = ranges[i].end
+
+            if (pos >= rangeStart && pos <= rangeEnd) {
+                var snapTick = 0
+                if(rangeStart-pos < pos - rangeEnd) {
+                    snapTick = rangeStart
+                }
+                else {
+                    snapTick = rangeEnd
+                }
+
+
+                if (event.target.id == 'pointOne') {
+                    pointOne.left = snapTick + 'px'
+                }   
+                else {
+                    pointTwo.left = snapTick + 'px'
+                }
+
+                console.log("Snap tick: " + snapTick)
+
+                updateHighlightedArea(snapTick)
+            }
+        }
+    }
+
+    // Function to update the position of the highlighted area
+    function updateHighlightedArea(snapTick) {
+        // console.log("p1 " + point1Pos)
+        // console.log("p2 " + point2Pos)
+        // var startPos = Math.min(point1Pos, point2Pos);
+        // var endPos = Math.max(point1Pos, point2Pos);
+        // var width = Math.abs(endPos - startPos);
+        // highLightLine.style.left = startPos + 'px';
+        // highLightLine.style.width = width + 'px';
+
+        var width = Math.abs(point1Pos - point2Pos);
+        highLightLine.style.left = point1Pos + 'px';
+        highLightLine.style.width = width + 'px';
+    }   
+
+</script>
+</html>

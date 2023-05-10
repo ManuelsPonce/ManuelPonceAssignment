@@ -1,0 +1,57 @@
+.outerContainer {
+    position: relative;
+}
+.numberLine {
+    position: absolute;
+    width: 600px;
+    height: 2px;
+    background-color: #000;
+    margin: 20px auto;
+}
+
+.tickMark {
+    position: absolute;
+    width: 2px;
+    height: 20px;
+    background-color: #000;
+}
+.number {
+    position: absolute;
+}
+
+.point {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #000;
+    cursor: pointer;
+    top: -5px;
+}
+
+.arrow {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 9px;
+    position: absolute;
+    top: -9px;
+  }
+
+.right {
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-45deg);
+    left: 578px;
+}
+  
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    left: 1px;
+}
+
+.highlight {
+    position: absolute;
+    height: 5px;
+    background-color: red;
+}
